@@ -1,0 +1,27 @@
+(SELECT customerName FROM deposit
+  2  WHERE branchName = 'Midlands')
+  3  UNION
+  4  (SELECT customerName FROM loan
+  5  WHERE branchName = 'Midlands');
+
+SELECT loan.customerName, branchName FROM loan, customer
+  2  WHERE loan.customerName = customer.customerName
+  3  AND customer.customerCity = 'Nottingham';
+
+SELECT loan.customerName, loan.branchName, amount, balance FROM loan LEFT JOIN deposit
+  2  ON loan.customerName = deposit.customerName
+  3  WHERE loan.branchName = 'Yorkshire';
+
+SELECT L.customerName FROM loan R, loan LSELECT MIN(balance)
+  2  FROM deposit;
+  2  WHERE R.branchName = L.branchName
+  3  AND R.customerName = 'Smith';
+
+SELECT MIN(balance)
+  2  FROM deposit;
+
+SELECT MAX(balance)
+  2  FROM deposit;
+
+SELECT AVG(balance)
+  2  FROM deposit;

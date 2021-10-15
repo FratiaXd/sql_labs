@@ -1,0 +1,96 @@
+CREATE TABLE customer(
+  2  customerName VARCHAR(20),
+  3  street VARCHAR(20),
+  4  customerCity VARCHAR(20),
+  5  PRIMARY KEY (customerName));
+
+CREATE TABLE branch(
+  2  branchName VARCHAR(20),
+  3  branchCity VARCHAR(20),
+  4  PRIMARY KEY (branchName));
+
+CREATE TABLE deposit(
+  2  customerName VARCHAR(20),
+  3  branchName VARCHAR(20),
+  4  accountNumber INT,
+  5  balance DECIMAL(7,2) DEFAULT '0',
+  6  PRIMARY KEY (accountNumber),
+  7  CONSTRAINT customerBr FOREIGN KEY (branchName)
+  8  REFERENCES branch(branchName),
+  9  CONSTRAINT customerNm FOREIGN KEY (customerName)
+ 10  REFERENCES customer(customerName));
+
+CREATE TABLE loan(
+  2  customerName VARCHAR(20),
+  3  branchName VARCHAR(20),
+  4  loanNumber INT,
+  5  amount DECIMAL(7,2) DEFAULT '0',
+  6  PRIMARY KEY (loanNumber),
+  7  CONSTRAINT branchLn FOREIGN KEY (branchName)
+  8  REFERENCES branch(branchName),
+  9  CONSTRAINT customerLn FOREIGN KEY (customerName)
+ 10  REFERENCES customer(customerName));
+
+ALTER TABLE branch
+  2  ADD assets DECIMAL(7,2) DEFAULT '0';
+
+
+
+INSERT INTO branch(branchName, branchCity, assets)
+  2  VALUES ('Yorkshire', 'Nottingham', 10000);
+SQL> INSERT INTO branch(branchName, branchCity, assets)
+  2  VALUES ('Midlands', 'Nottingham', 20000);
+SQL> INSERT INTO branch(branchName, branchCity, assets)
+  2  VALUES ('RoyalBank', 'Nottingham', 25000);
+SQL> INSERT INTO branch(branchName, branchCity, assets)
+  2  VALUES ('HFE', 'Derby', 15000);
+SQL> INSERT INTO branch(branchName, branchCity, assets)
+  2  VALUES ('Southern', 'Derby', 30000);
+
+
+INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Jones', 'Victoria', 'Nottingham');
+SQL> INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Patel', 'Church', 'Nottingham');
+SQL> INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Smith', 'Derby', 'Leicester');
+SQL> INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Ahmed', 'Church', 'Derby');
+SQL> INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Braun', 'Alfred', 'Derby');
+SQL> INSERT INTO customer(customerName, street, customerCity)
+  2  VALUES ('Chan', 'Victoria', 'Nottingham');
+
+
+INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Jones', 'Yorkshire', 1, 100);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Braun', 'Midlands', 20, 150);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Ahmed', 'RoyalBank', 30, 480);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Smith', 'Midlands', 21, 600);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Patel', 'RoyalBank', 31, 450);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Patel', 'Midlands', 22, 70);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Braun', 'Southern', 41, 2000);
+SQL> INSERT INTO deposit(customerName, branchName, accountNumber, balance)
+  2  VALUES ('Jones', 'HFE', 42, 4100);
+
+
+INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Jones', 'Yorkshire', 11, 3000);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Chan', 'Yorkshire', 12, 2500);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Ahmed', 'Yorkshire', 13, 1800);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Smith', 'Midlands', 50, 5000);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Smith', 'RoyalBank', 6, 500);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Patel', 'Midlands', 51, 1000);
+SQL> INSERT INTO loan(customerName, branchName, loanNumber, amount)
+  2  VALUES ('Jones', 'Midlands', 61, 2000);
