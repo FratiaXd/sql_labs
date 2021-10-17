@@ -18,6 +18,9 @@ SELECT customerName FROM deposit
   4  (SELECT branchName FROM branch
   5  WHERE branchCity = 'Nottingham');
 
+SELECT customerNme FROM deposit
+  2  WHERE balance >= ALL(SELECT balance FROM deposit);
+
 CREATE VIEW  finance (customerName, customerCity, branchName, branchCity)
   2  AS SELECT d.customerName, c.customerCity, d.branchName, b.branchCity
   3  FROM deposit d, branch b, customer c
