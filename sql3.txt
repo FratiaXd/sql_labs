@@ -1,29 +1,29 @@
 SELECT branchName, SUM(balance)
-  2  FROM deposit
-  3  GROUP BY branchName;
+FROM deposit
+GROUP BY branchName;
 
 SELECT branchName, COUNT(branchName)
-  2  FROM deposit
-  3  GROUP BY branchName
-  4  HAVING COUNT(branchName)>1;
+FROM deposit
+GROUP BY branchName
+HAVING COUNT(branchName)>1;
 
 SELECT customerName FROM branch, deposit
-  2  WHERE branch.branchName = deposit.branchName
-  3  AND balance > 0
-  4  AND branchCity = 'Nottingham';
+WHERE branch.branchName = deposit.branchName
+AND balance > 0
+AND branchCity = 'Nottingham';
 
 SELECT customerName FROM deposit
-  2  WHERE balance > 0
-  3  AND branchName IN
-  4  (SELECT branchName FROM branch
-  5  WHERE branchCity = 'Nottingham');
+WHERE balance > 0
+AND branchName IN
+(SELECT branchName FROM branch
+WHERE branchCity = 'Nottingham');
 
 SELECT customerNme FROM deposit
-  2  WHERE balance >= ALL(SELECT balance FROM deposit);
+WHERE balance >= ALL(SELECT balance FROM deposit);
 
 CREATE VIEW  finance (customerName, customerCity, branchName, branchCity)
-  2  AS SELECT d.customerName, c.customerCity, d.branchName, b.branchCity
-  3  FROM deposit d, branch b, customer c
-  4  WHERE d.customerName = c.customerName
-  5  AND d.branchName = b.branchName
-  6  GROUP BY d.customerName, c.customerCity, d.branchName, b.branchCity;
+AS SELECT d.customerName, c.customerCity, d.branchName, b.branchCity
+FROM deposit d, branch b, customer c
+WHERE d.customerName = c.customerName
+AND d.branchName = b.branchName
+GROUP BY d.customerName, c.customerCity, d.branchName, b.branchCity;

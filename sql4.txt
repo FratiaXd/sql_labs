@@ -1,0 +1,30 @@
+CREATE OR REPLACE PROCEDURE addInterest(brName VARCHAR, interest DEC) AS
+BEGIN 
+UPDATE deposit SET balance = balance + balance * (interest / 100)
+WHERE branchName = brName;
+END;
+/
+
+
+CREATE OR REPLACE PROCEDURE addInterest(brName VARCHAR, interest DEC) AS
+aName deposit.customerName%TYPE;
+aBalance deposit.balance%TYPE;
+BEGIN
+SELECT balance, customerName INTO aBalance, aName FROM deposit
+WHERE branchName = brName;
+UPDATE deposit SET balance = balance + balance * (interest / 100)
+WHERE branchName = brName;
+dbms_output.put_line('Customer = '||aName);
+dbms_output.put_line('Balance = '||aBalance);
+END;
+/
+
+CREATE FUNCTION getBalance(brnchName VARCHAR)
+RETURN DECIMAL IS
+aSum DECIMAL(8,2);
+BEGIN
+SELECT SUM(balance) INTO aSum FROM deposit
+WHERE branchName = brnchName;
+RETURN aSum;
+END;
+/
