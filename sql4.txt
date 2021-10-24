@@ -19,6 +19,24 @@ dbms_output.put_line('Balance = '||aBalance);
 END;
 /
 
+CREATE OR REPLACE PROCEDURE newBalances(aBranchName VARCHAR, anInterestRate DECIMAL) AS
+CURSOR someDepositRows IS
+SELECTcustomerName, balance FROM Deposit WHERE branchName = aBranchName;
+aCustomerNameRow Deposit.customerName%TYPE;
+aBalanceRow Deposit.balance%TYPE;
+BEGIN
+UPDATE Deposit SET balance = balance * (100.0 + anInterestRate) / 100.0 WHERE branchName = aBranchName;
+OPEN someDepositRows;
+dbms_output.put_line('Customer Name - '||'Balance - ' );
+LOOP
+FETCH someDepositRows INTO aCustomerNameRow, aBalanceRow;
+EXIT WHEN someDepositRows%NOTFOUND;
+dbms_output.put_line(aCustomerNameRow|| ' - ' || aBalanceRow);
+END LOOP;
+CLOSE someDepositRows;
+END;
+/
+
 CREATE FUNCTION getBalance(brnchName VARCHAR)
 RETURN DECIMAL IS
 aSum DECIMAL(8,2);
