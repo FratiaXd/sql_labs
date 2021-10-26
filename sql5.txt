@@ -1,0 +1,44 @@
+CREATE TABLE bankStats(
+when DATE,
+numberOfLoans INT,
+PRIMARY KEY (when, numberOfLoans));
+
+INSERT INTO bankStats (when, numberOfLoans)
+SELECT SYSDATE, COUNT(*) FROM loan;
+
+CREATE OR REPLACE TRIGGER keepTotal
+AFTER INSERT OR DELETE ON loan
+BEGIN
+INSERT INTO bankStats (when, numberOfLoans)
+SELECT SYSDATE, COUNT(*) FROM loan;
+END;
+/
+
+CREATE TABLE bankStats2(
+branchName VARCHAR(20) PRIMARY KEY,
+numberOfLoans INT);
+
+INSERT INTO bankStats2 (branchName, numberOfLoans)
+SELECT branch.branchName, COUNT(loan.branchName) FROM branch LEFT JOIN loan
+ON branch.branchName = loan.branchName
+GROUP BY branch.branchName;
+
+CREATE OR REPLACE TRIGGER keepBrLoan
+AFTER INSERT ON loan
+FOR EACH ROW
+BEGIN
+UPDATE bankStats2 SET numberOfLoans = numberOfLoans + 1
+WHERE bankStats2.branchName = :new.branchName;
+END;
+/
+
+CREATE OR REPLACE TRIGGER keepBrLoan
+AFTER DELETE ON loan
+FOR EACH ROW
+BEGIN
+UPDATE bankStats2 SET numberOfLoans = numberOfLoans - 1
+WHERE bankStats2.branchName = :new.branchName;
+END;
+/
+
+
