@@ -1,0 +1,50 @@
+ALTER TABLE deposit
+DROP CONSTRAINT customerBr CASCADE;
+
+ALTER TABLE deposit
+ADD CONSTRAINT DepToBr
+FOREIGN KEY (branchName)
+REGERENCES branch(branchName)
+ON DELETE CASCADE;
+
+ALTER TABLE deposit
+DROP CONSTRAINT customerNm CASCADE;
+
+ALTER TABLE deposit
+ADD CONSTRAINT DepToCust
+FOREIGN KEY (customerName)
+REGERENCES customer(customerName)
+ON DELETE CASCADE;
+
+ALTER TABLE loan
+DROP CONSTRAINT branchLn CASCADE;
+
+ALTER TABLE loan
+ADD CONSTRAINT depenToBr
+FOREIGN KEY (branchName)
+REGERENCES branch(branchName)
+ON DELETE CASCADE;
+
+ALTER TABLE loan
+DROP CONSTRAINT customerLn CASCADE;
+
+ALTER TABLE loan
+ADD CONSTRAINT depenToCust
+FOREIGN KEY (branchName)
+REGERENCES branch(branchName)
+ON DELETE CASCADE;
+
+UPDATE branch SET branchName = 'Royal'
+WHERE branchName = 'RoyalBank';
+
+UPDATE deposit SET branchName = 'Royal'
+WHERE branchName = 'RoyalBank';
+
+UPDATE deposit SET branchName = 'Royal'
+WHERE branchName = 'HFE';
+
+DELETE FROM branch
+WHERE barnchName = 'RoyalBank';
+
+DELETE FROM deposit
+WHERE barnchName = 'RoyalBank';
