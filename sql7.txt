@@ -1,0 +1,15 @@
+CREATE INDEX bal_index
+ON deposit(balance DESC);
+
+ALTER TABLE deposit
+ADD startDate DATE DEFAULT(SYSDATE);
+
+ALTER TABLE deposit
+ADD updDate DATE DEFAULT(SYSDATE);
+
+ALTER TABLE loan
+ADD startDate DATE DEFAULT(SYSDATE);
+
+ALTER TABLE loan
+ADD updDate DATE DEFAULT(SYSDATE);
+
