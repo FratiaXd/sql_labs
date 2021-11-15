@@ -14,9 +14,30 @@ ALTER TABLE loan
 ADD updDate DATE DEFAULT(SYSDATE);
 
 CREATE OR REPLACE TRIGGER updDates
-BEFORE UPDATE ON Deposit
+BEFORE UPDATE ON deposit
 FOR EACH ROW
 BEGIN
 :new.updDate := SYSDATE;
 END;
 /
+
+INSERT INTO deposit (branchName, accountNumber, customerName, balance) 
+VALUES ('Midlands',200,'Jones',340);
+
+INSERT INTO loan (branchName, loanNumber, customerName, amount) 
+VALUES ('Midlands',234,'Jones',440);
+
+UPDATE deposit SET balance = 200 WHERE accountNumber = 200;
+
+UPDATE loan SET amount = 234 WHERE loanNumber = 234;
+
+SELECT
+TO_CHAR(SYSDATE,'HH24:MI DD MONTH YY') AS "Query DateTime",
+SUBSTRB(REPLACE(branchName,'RoyalBank','RoyalNorthernBank'),1,13) AS
+branchName, customerName, accountNumber,
+TO_CHAR(Balance, '9,999.99') AS balance,
+TO_CHAR(CreationDate,'HH24:MI DD MONTH YY') AS startDate,
+TO_CHAR(ModificationDate,'HH24:MI DD MONTH YY') AS updDate
+FROM deposit
+ORDER BY branchName, customerName;
+
