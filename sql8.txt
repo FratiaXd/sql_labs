@@ -1,0 +1,17 @@
+GRANT SELECT ON deposit
+TO XXX WITH GRANT OPTION;
+
+REVOKE SELECT ON deposit
+FROM XXX;
+
+CREATE OR REPLACE VIEW customersInfo 
+(customerName, branchName) AS
+SELECT customerName, branchName
+FROM deposit
+WHERE balance > 400;
+
+GRANT SELECT ON customersInfo TO XXX
+WITH GRANT OPTION;
+
+REVOKE SELECT ON customersInfo
+FROM XXX;
