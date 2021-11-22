@@ -1,0 +1,3 @@
+UPDATE deposit SET balance = (balance*0.1) + balance
+WHERE branchName = 'RoyalBank';
+
