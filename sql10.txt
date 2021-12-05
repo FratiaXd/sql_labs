@@ -1,3 +1,21 @@
 SELECT customer.customerName, customer.customerCity, NVL2(SUM(balance), SUM(balance), 0) as totalBalance FROM customer LEFT JOIN deposit
 ON customer.customerName = deposit.customerName
 GROUP BY customer.customerName, customerCity;
+
+SELECT customerName, 'Has no account and no loan' Status FROM
+Customer
+WHERE customerName NOT IN (SELECT customerName FROM Deposit)
+AND customerName NOT IN (SELECT customerName FROM Loan)
+UNION
+SELECT customerName, 'Has an account but no loan' Status FROM Customer
+WHERE customerName IN (SELECT customerName FROM Deposit)
+AND customerName NOT IN (SELECT customerName FROM Loan)
+UNION
+SELECT customerName, 'Has a loan but no account' Status FROM Customer
+WHERE customerName NOT IN (SELECT customerName FROM Deposit)
+AND customerName IN (SELECT customerName FROM Loan)
+UNION
+SELECT customerName, 'Has both an account and a loan' Status FROM
+Customer
+WHERE customerName IN (SELECT customerName FROM Deposit)
+AND customerName IN (SELECT customerName FROM Loan);
