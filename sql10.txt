@@ -19,3 +19,14 @@ SELECT customerName, 'Has both an account and a loan' Status FROM
 Customer
 WHERE customerName IN (SELECT customerName FROM Deposit)
 AND customerName IN (SELECT customerName FROM Loan);
+
+SELECT customerName, customerCity,
+(SELECT NVL2(SUM(balance),SUM(balance),0) from Deposit WHERE
+Deposit.customerName = Customer.customerName) "Total Balance",
+(SELECT NVL2(SUM(amount),SUM(amount),0) from Loan WHERE
+Loan.customerName = Customer.customerName) "Total Amount"
+FROM Customer
+WHERE (SELECT NVL2(SUM(amount),SUM(amount),0) from Loan
+WHERE Loan.customerName = Customer.customerName) >
+(SELECT NVL2(SUM(balance),SUM(balance),0) from Deposit WHERE
+Deposit.customerName = Customer.customerName);
