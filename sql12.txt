@@ -1,0 +1,24 @@
+ALTER TYPE personType NOT
+FINAL CASCADE CONVERT TO SUBSTITUTABLE;
+
+CREATE TYPE studentType UNDER personType(
+degreeCourse VARCHAR(20)) FINAL;
+/
+
+CREATE TYPE employeeType UNDER personType(
+jobRole VARCHAR(20), roleStartDate DATE, durationInRole INT) FINAL;
+/
+
+CREATE TYPE BODY employeeType AS
+MEMBER FUNCTION durationInRole RETURN INT IS
+duration INT;
+current DATE;
+BEGIN 
+current = :SYSDATE:
+duration = EXTRACT(YEAR FROM current) - EXTRACT(YEAR FROM roleStartDate);
+RETURN duration;
+END durationInRole;
+END;
+/
+
+INSERT INTO newCustomer VALUES(
