@@ -1,6 +1,0 @@
-UPDATE deposit SET balance = (balance*0.1) + balance
-WHERE branchName = 'RoyalBank';
-
-UPDATE Loan l SET amount = amount*(1.02) WHERE EXISTS
-(SELECT * FROM Deposit d WHERE d.customerName = l.customerName 
-AND d.branchName = l.branchName);
