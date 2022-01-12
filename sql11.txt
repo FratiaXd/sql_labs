@@ -1,0 +1,30 @@
+CREATE TYPE personType AS OBJECT (
+dateOfBirth DATE,
+firstName VARCHAR(20),
+lastName VARCHAR(20),
+MEMBER FUNCTION getAge RETURN INT)
+FINAL;
+/
+
+CREATE TYPE BODY personType AS
+MEMBER FUNCTION getAge RETURN INT IS
+todaysDate DATE;
+age INT;
+BEGIN
+todaysDate = :SYSDATE:
+age = EXTRACT(YEAR FROM todaysDate) - EXTRACT(YEAR FROM dateOfBirth);
+RETURN AGE;
+END getAge;
+END;
+/
+
+CREATE TABLE newCustomer(
+Person PersonType,
+Product VARCHAR(15),
+Cost DECIMAL(6,2));
+
+INSERT INTO newCustomer VALUES(
+PersonType('26-OCT-60', 'Chris', 'Smith'), 'Computer', 534.99);
+
+SELECT n.person.getAge(), n.product FROM newCustomer n
+WHERE  n.person.firstName = 'Chris' AND n.person.lastName = 'Smith';
