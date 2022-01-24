@@ -22,3 +22,10 @@ END;
 /
 
 INSERT INTO newCustomer VALUES(
+newCustomer VALUES (
+personType('26-OCT-60', 'Chris', 'Smith'),
+'Computer',
+534.99);
+
+SELECT n.person.getAge(), n.person.firstName, n.person.lastName FROM
+newCustomer n;
